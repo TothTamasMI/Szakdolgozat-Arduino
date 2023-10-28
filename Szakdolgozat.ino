@@ -1,17 +1,15 @@
 #include <AFMotor.h>
 #include <Servo.h>   
 
-int servo_position = 0;
 Servo servoMotor;
 
 AF_DCMotor motor1(1, MOTOR12_1KHZ); 
-AF_DCMotor motor4(4, MOTOR34_1KHZ);
 AF_DCMotor motor2(2, MOTOR12_1KHZ); 
 AF_DCMotor motor3(3, MOTOR34_1KHZ);
+AF_DCMotor motor4(4, MOTOR34_1KHZ);
 
 int delayTime = 5;
-int motorRunTime = 2000;
-int motorSpeed = 230;
+int motorSpeed = 255;
 
 //Value from the android device
 char value;
@@ -31,12 +29,12 @@ void loop(){
 
   if(value == 'F'){
     goForwardStraight();
-    setSpeedForMotors(255);
+    setSpeedForMotors(motorSpeed);
   }
 
   else if(value == 'B'){
     goBackwardStraight();
-    setSpeedForMotors(255);
+    setSpeedForMotors(motorSpeed);
   }
 
   else if(value == 'D'){
@@ -53,61 +51,6 @@ void loop(){
   }
 }
 
-void servoTest(){
-  servoTurnMiddle();
-  delay(motorRunTime);
-
-  servoTurnRight();
-  delay(motorRunTime);
-
-  servoTurnMiddle();
-  delay(motorRunTime);
-
-  servoTurnLeft();
-  delay(motorRunTime);
-
-  servoTurnMiddle();
-  delay(motorRunTime);
-}
-
-void motorTestForward(){
-  goForwardStraight();
-
-  setSpeedForMotors(63);
-  delay(motorRunTime);
-
-  setSpeedForMotors(127);
-  delay(motorRunTime);
-
-  setSpeedForMotors(191);
-  delay(motorRunTime);
-
-  setSpeedForMotors(255);
-  delay(motorRunTime);
-
-  motorsRelase();
-  delay(motorRunTime);
-}
-
-void motorTestBackward(){
-  goBackwardStraight();
-
-  setSpeedForMotors(63);
-  delay(motorRunTime);
-
-  setSpeedForMotors(127);
-  delay(motorRunTime);
-
-  setSpeedForMotors(191);
-  delay(motorRunTime);
-
-  setSpeedForMotors(255);
-  delay(motorRunTime);
-
-  motorsRelase();
-  delay(motorRunTime);
-}
-
 void goForwardStraight(){
   motorsRunForward();
   delay(delayTime);
@@ -118,30 +61,6 @@ void goBackwardStraight(){
   motorsRunBackward();
   delay(delayTime);
   servoTurnMiddle();
-}
-
-void goForwardRight(){
-  motorsRunForward();
-  delay(delayTime);
-  servoTurnRight();
-}
-
-void goForwardLeft(){
-  motorsRunForward();
-  delay(delayTime);
-  servoTurnLeft();
-}
-
-void goBackwardRight(){
-  motorsRunBackward();
-  delay(delayTime);
-  servoTurnRight();
-}
-
-void goBackwardLeft(){
-  motorsRunBackward();
-  delay(delayTime);
-  servoTurnLeft();
 }
 
 void motorsRunForward(){
