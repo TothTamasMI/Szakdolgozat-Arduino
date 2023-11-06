@@ -8,21 +8,17 @@ AF_DCMotor motor2(2, MOTOR12_1KHZ);
 AF_DCMotor motor3(3, MOTOR34_1KHZ);
 AF_DCMotor motor4(4, MOTOR34_1KHZ);
 
-int delayTime = 5;
 int motorSpeed = 255;
 
-//Value from the android device
 char value;
 
 void setup(){
   servoMotor.attach (10); 
-
   Serial.begin(9600);
   servoTurnMiddle();
 }
  
 void loop(){
-  //Read the value from the bluetooth connection
   if (Serial.available() > 0) {
     value = Serial.read();
   }
@@ -39,7 +35,6 @@ void loop(){
 
   else if(value == 'D'){
     motorsRelase();
-    servoTurnMiddle();
   }
 
   else if(value == 'L'){
@@ -49,17 +44,29 @@ void loop(){
   else if(value == 'R'){
     servoTurnRight();
   }
+
+  else if(value == 'C'){
+    goChoreography();
+  }
+
+  else if(value == 'M'){
+    servoTurnMiddle();
+  }
+}
+
+void goChoreography(){
+  servoTurnRight();
+  motorsRunForward();
+  setSpeedForMotors(motorSpeed);
 }
 
 void goForwardStraight(){
   motorsRunForward();
-  delay(delayTime);
   servoTurnMiddle();
 }
 
 void goBackwardStraight(){
   motorsRunBackward();
-  delay(delayTime);
   servoTurnMiddle();
 }
 
@@ -92,11 +99,11 @@ void setSpeedForMotors(int speed){
 }
 
 void servoTurnLeft(){
-  servoMotor.write(0);
+  servoMotor.write(180);
 }
 
 void servoTurnRight(){
-  servoMotor.write(180);
+  servoMotor.write(0);
 }
 
 void servoTurnMiddle(){
